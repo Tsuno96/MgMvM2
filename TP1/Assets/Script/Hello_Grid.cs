@@ -17,7 +17,7 @@ public class Hello_Grid : MonoBehaviour
 
         Vector3[] vertices = new Vector3[row * column * 4];
         int[] triangles = new int[row * column * 6];
-
+        
         for (int i = 0; i < column; i++)
         {
             for (int j = 0; j < row; j++)
@@ -51,10 +51,10 @@ public class Hello_Grid : MonoBehaviour
         msh.triangles = triangles;
 
 
-        foreach (Vector3 n in msh.vertices)
-        {
-            Debug.Log(n);
-        }
+        //foreach (Vector3 n in msh.vertices)
+        //{
+        //    Debug.Log(n);
+        //}
 
         gameObject.GetComponent<MeshFilter>().mesh = msh;           // Remplissage du Mesh et ajout du matériel
         gameObject.GetComponent<MeshRenderer>().material = mat;

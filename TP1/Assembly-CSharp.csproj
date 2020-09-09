@@ -58,6 +58,7 @@
     <Compile Include="Assets\Script\Hello_Triangle.cs" />
     <Compile Include="Assets\Script\Hello_Carre.cs" />
     <Compile Include="Assets\Script\Hello_Grid.cs" />
+    <Compile Include="Assets\Script\Hello_Cylindre.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
