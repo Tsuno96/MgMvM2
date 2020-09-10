@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hello_Cylindre : MonoBehaviour
+public class Hello_Cercle : MonoBehaviour
 {
+
     const float PI = 3.1415926f;
     public int rayon, hauteur, nmeridien;
     public int[] triangles;
     public Vector3[] vertices;
     public Material mat;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,35 +19,29 @@ public class Hello_Cylindre : MonoBehaviour
 
         // Création des structures de données qui accueilleront sommets et  triangles  // Remplissage de la structure sommet 
 
-        vertices = new Vector3[nmeridien * 2 + 2];
-        triangles = new int[nmeridien * 2 * 3];
+        vertices = new Vector3[nmeridien + 1];
+        triangles = new int[nmeridien * 3];
 
 
-        vertices[nmeridien * 2] = new Vector3(0, 0, 0);
-        vertices[nmeridien * 2+1] = new Vector3(0, hauteur, 0);
+        vertices[nmeridien] = new Vector3(0, 0, 0);
 
-        for (int i = 0; i<nmeridien; i++)
+        for (int i = 0; i < nmeridien; i++)
         {
-            vertices[i*2] = new Vector3(rayon * Mathf.Sin((2*PI *i+1) /nmeridien), 0, rayon * Mathf.Cos((2*PI * i+1) / nmeridien));
-            vertices[i*2 +1] = new Vector3(rayon * Mathf.Sin((2 * PI * i + 1) / nmeridien), 0, hauteur * Mathf.Cos((2 * PI * i + 1) / nmeridien));
+            vertices[i] = new Vector3(rayon * Mathf.Sin((2 *PI * i+1) / nmeridien), 0, rayon * Mathf.Cos((2 *PI * i+1) / nmeridien));
 
         }
         int k = 0;
-        for(int j = 0; j<nmeridien;j++)
+        for (int j = 0; j < nmeridien; j++)
         {
-            triangles[k] = nmeridien * 2; 
-            triangles[k +1] = (j*2) ; 
-            triangles[k +2] = ((j *2) + 2) % nmeridien; 
-            triangles[k +3] = nmeridien * 2 +1; 
-            triangles[k +4] = (j *2) + 1 ; 
-            triangles[k +5] = ((j *2) + 3) % nmeridien;
-
-            k += 6;
+            triangles[k] = nmeridien;
+            triangles[k + 1] = (j);
+            triangles[k + 2] = ((j) + 1) % nmeridien;
+            k += 3;
         }
-       
 
 
-        
+
+
 
 
         // Remplissage de la structure triangle. Les sommets sont représentés par leurs indices
@@ -66,7 +62,6 @@ public class Hello_Cylindre : MonoBehaviour
 
         gameObject.GetComponent<MeshFilter>().mesh = msh;           // Remplissage du Mesh et ajout du matériel
         gameObject.GetComponent<MeshRenderer>().material = mat;
-
     }
 
     // Update is called once per frame
