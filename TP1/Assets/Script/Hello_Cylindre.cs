@@ -18,29 +18,37 @@ public class Hello_Cylindre : MonoBehaviour
         // Création des structures de données qui accueilleront sommets et  triangles  // Remplissage de la structure sommet 
 
         vertices = new Vector3[nmeridien * 2 + 2];
-        triangles = new int[nmeridien * 2 * 3];
+        triangles = new int[nmeridien * 4 * 3];
 
 
-        vertices[nmeridien * 2] = new Vector3(0, 0, 0);
+        vertices[nmeridien*2] = new Vector3(0, 0, 0);
         vertices[nmeridien * 2+1] = new Vector3(0, hauteur, 0);
 
         for (int i = 0; i<nmeridien; i++)
         {
-            vertices[i*2] = new Vector3(rayon * Mathf.Sin((2*PI *i+1) /nmeridien), 0, rayon * Mathf.Cos((2*PI * i+1) / nmeridien));
-            vertices[i*2 +1] = new Vector3(rayon * Mathf.Sin((2 * PI * i + 1) / nmeridien), 0, hauteur * Mathf.Cos((2 * PI * i + 1) / nmeridien));
-
+            vertices[i] = new Vector3(rayon * Mathf.Sin((2 * PI * i + 1) / nmeridien), 0, rayon * Mathf.Cos((2 * PI * i + 1) / nmeridien));
+            vertices[i + nmeridien + 1] = new Vector3(rayon * Mathf.Sin((2 * PI * i + 1) / nmeridien), hauteur, rayon * Mathf.Cos((2 * PI * i + 1) / nmeridien));
         }
         int k = 0;
         for(int j = 0; j<nmeridien;j++)
         {
-            triangles[k] = nmeridien * 2; 
-            triangles[k +1] = (j*2) ; 
-            triangles[k +2] = ((j *2) + 2) % nmeridien; 
-            triangles[k +3] = nmeridien * 2 +1; 
-            triangles[k +4] = (j *2) + 1 ; 
-            triangles[k +5] = ((j *2) + 3) % nmeridien;
+            triangles[k] = nmeridien;
+            triangles[k + 1] = (j + 1) % nmeridien;
+            triangles[k + 2] = j;
 
-            k += 6;
+            triangles[k + 3] = nmeridien * 2 + 1;
+            triangles[k + 4] = j + nmeridien + 1;
+            triangles[k + 5] = (j + 1) % nmeridien + nmeridien + 1;
+
+            triangles[k + 6] = j;
+            triangles[k + 7] = (j + 1) % nmeridien + nmeridien + 1;
+            triangles[k + 8] = j + nmeridien +1;
+
+            triangles[k + 9] = j;
+            triangles[k + 10] = (j + 1) % nmeridien;
+            triangles[k + 11] = (j + 1) % nmeridien + nmeridien + 1;
+
+            k += 12;
         }
        
 

@@ -40,10 +40,6 @@ public class Hello_Cercle : MonoBehaviour
         }
 
 
-
-
-
-
         // Remplissage de la structure triangle. Les sommets sont représentés par leurs indices
         // les triangles sont représentés par trois indices (et sont mis bout à bout)
 
