@@ -61,6 +61,7 @@
     <Compile Include="Assets\Script\Hello_Cylindre.cs" />
     <Compile Include="Assets\Script\Hello_Grid.cs" />
     <Compile Include="Assets\Script\Helo_Sphere.cs" />
+    <Compile Include="Assets\Script\Hello_Cone.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

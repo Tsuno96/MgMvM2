@@ -5,28 +5,29 @@ using UnityEngine;
 public class Helo_Sphere : MonoBehaviour
 {
     const float PI = 3.1415926f;
-    public int rayon, nparallele, nmeridien;
+    public int rayon, nparallele, nmeridien,ntronc;
     public int[] triangles;
     public Vector3[] vertices;
     public Material mat;
     // Start is called before the first frame update
     void Start()
     {
+        ntronc = nmeridien - ntronc;
         gameObject.AddComponent<MeshFilter>();          // Creation d'un composant MeshFilter qui peut ensuite être visualisé
         gameObject.AddComponent<MeshRenderer>();
 
         // Création des structures de données qui accueilleront sommets et  triangles  // Remplissage de la structure sommet 
 
-        vertices = new Vector3[(nmeridien +1) *(nparallele+1)];
-        triangles = new int[nmeridien * 2 *nparallele * 3];
+        vertices = new Vector3[(ntronc + 1) *(nparallele+1)+1];
+        triangles = new int[(ntronc *nparallele *2 + 2*nparallele) * 3];
 
 
         int index = 0;
-
+        vertices[(ntronc + 1) * (nparallele + 1)] = new Vector3(0, 0, 0); 
         for (int i = 0; i <= nparallele; i++)
         {
             float phi = -PI / 2 + i * PI / nparallele;
-            for(int j = 0; j<= nmeridien; j++)
+            for(int j = 0; j<= ntronc; j++)
             {
                 float teta = j * 2 * PI / nmeridien;
                 
@@ -42,9 +43,9 @@ public class Helo_Sphere : MonoBehaviour
         int k = 0;
         for (int j = 0; j < nparallele; j++)
         {
-            int r1 = j * (nmeridien + 1);
-            int r2 = (j+1) * (nmeridien + 1);
-            for (int i = 0; i < nmeridien; i++)
+            int r1 = j * (ntronc + 1);
+            int r2 = (j+1) * (ntronc + 1);
+            for (int i = 0; i < ntronc; i++)
             {
                 triangles[k] = r1 + i;
                 triangles[k+1] = r2 + i +1;
@@ -57,6 +58,23 @@ public class Helo_Sphere : MonoBehaviour
                 k += 6;
             }
         }
+
+        for (int i =0;i<nparallele;i++)
+        {
+           
+            triangles[k++] = (i * (ntronc + 1)) + ntronc + 1;
+            triangles[k++] = ((ntronc + 1) * (nparallele + 1)); // ok
+            triangles[k++] = (i * (ntronc + 1));
+
+            triangles[k++] = ((i * (ntronc + 1))) + ntronc;
+            triangles[k++] = ((ntronc + 1) * (nparallele + 1)); // ok
+            triangles[k++] = ((i * (ntronc + 1)) + ntronc + 1) + ntronc;
+
+
+         
+
+        }
+
 
 
 
