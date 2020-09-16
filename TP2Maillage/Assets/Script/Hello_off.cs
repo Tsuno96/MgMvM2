@@ -14,11 +14,11 @@ public class Hello_off : MonoBehaviour
     public int nArrete;
 
     public Vector3[] vertices;
+    public Vector3[] normales;
     public int[] triangles;
     public Material mat;
-    float sommeX;
-    float sommeY;
-    float sommeZ;
+    float sommeX, sommeY, sommeZ;
+    float minX, minY, minZ, maxX, maxY, maxZ;
     
     [MenuItem("Tools/Read file")]
     void ReadOff()
@@ -40,6 +40,7 @@ public class Hello_off : MonoBehaviour
 
         vertices = new Vector3[nSommet];
         triangles = new int[nFacette * 3];
+        normales = new Vector3[nFacette];
         for(int l =0;l<nSommet;l++) 
         {
             string[] v = reader.ReadLine().Split(' ');
@@ -49,6 +50,33 @@ public class Hello_off : MonoBehaviour
             sommeX += x;
             sommeY += y;
             sommeZ += z;
+
+            if(x < minX)
+            {
+                minX = x;
+            }
+            if(y < minY)
+            {
+                minY = y;
+            }
+            if(z < minZ)
+            {
+                minZ = z;
+            }
+
+            if(x > maxX)
+            {
+                maxX = x;
+            }
+            if(y > maxY)
+            {
+                maxY = y;
+            }
+            if(z > maxZ)
+            {
+                maxZ = z;
+            }
+
             vertices[l] = new Vector3(x, y,z);
         }
         int k = 0;
@@ -57,7 +85,11 @@ public class Hello_off : MonoBehaviour
             string[] f = reader.ReadLine().Split(' ');
             triangles[k] = int.Parse(f[1]);
             triangles[k+1] = int.Parse(f[2]);
-            triangles[k+2] = int.Parse(f[3]);
+            triangles[k + 2] = int.Parse(f[3]);
+            Vector3 n = Vector3.Cross(vertices[int.Parse(f[1])] - vertices[int.Parse(f[2])], vertices[int.Parse(f[3])] - vertices[int.Parse(f[2])]);
+            normales[l] = n;
+
+
             k += 3;
         }
         
@@ -70,9 +102,9 @@ public class Hello_off : MonoBehaviour
         gameObject.AddComponent<MeshFilter>();          // Creation d'un composant MeshFilter qui peut ensuite être visualisé
         gameObject.AddComponent<MeshRenderer>();
 
-        sommeX = 0;
-        sommeY = 0;
-        sommeZ = 0;
+        sommeX = sommeY = sommeZ = 0;
+        minX = minY = minZ = Mathf.Infinity;
+        maxX = maxY = maxZ = Mathf.NegativeInfinity;
 
         ReadOff();
 
@@ -85,16 +117,23 @@ public class Hello_off : MonoBehaviour
             vertices[v] -= new Vector3(sommeX, sommeY, sommeZ);
         }
 
+        float maxCoord = Mathf.Max(Mathf.Abs(maxZ - minZ), Mathf.Abs(maxY - minY), Mathf.Abs(maxX - minX));
+
+        for (int v = 0; v < vertices.Length; v++)
+        { 
+            vertices[v] = new Vector3(vertices[v].x/maxCoord, vertices[v].y/maxCoord, vertices[v].z/maxCoord);
+        }
+
         Mesh msh = new Mesh();                          // Création et remplissage du Mesh
+
+
+
 
         msh.vertices = vertices;
         msh.triangles = triangles;
+        msh.normals = normales;
 
-
-        //foreach (Vector3 n in msh.vertices)
-        //{
-        //    Debug.Log(n);
-        //}
+        
 
         gameObject.GetComponent<MeshFilter>().mesh = msh;           // Remplissage du Mesh et ajout du matériel
         gameObject.GetComponent<MeshRenderer>().material = mat;

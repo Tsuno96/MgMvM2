@@ -157,6 +157,7 @@ MonoBehaviour:
   nFacette: 0
   nArrete: 0
   vertices: []
+  normales: []
   triangles: 
   mat: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!4 &105454949
@@ -182,8 +183,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 416536079}
+  - component: {fileID: 416536080}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -197,12 +199,32 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 416536078}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &416536080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 416536078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 660d59070d2e4fa4ea8403e8c0ba5940, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameObject: cube
+  nSommet: 0
+  nFacette: 0
+  nArrete: 0
+  vertices: []
+  normales: []
+  triangles: 
+  mat: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,7 +394,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: -0.6827989, y: 0.108591914, z: 0.21811295}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
