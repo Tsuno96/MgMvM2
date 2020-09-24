@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System.Globalization;
+using System.Threading;
 
 public class Hello_off : MonoBehaviour
 {
@@ -20,7 +21,6 @@ public class Hello_off : MonoBehaviour
     float sommeX, sommeY, sommeZ;
     float minX, minY, minZ, maxX, maxY, maxZ;
     
-    [MenuItem("Tools/Read file")]
     void ReadOff()
     {
         string path = "Assets/Off/" + nameObject + ".off";
@@ -40,7 +40,12 @@ public class Hello_off : MonoBehaviour
 
         vertices = new Vector3[nSommet];
         triangles = new int[nFacette * 3];
-        normales = new Vector3[nFacette];
+        normales = new Vector3[nSommet];
+        for(int i = 0; i< normales.Length; i++)
+        {
+            normales[i] = Vector3.zero;
+        }
+
         for(int l =0;l<nSommet;l++) 
         {
             string[] v = reader.ReadLine().Split(' ');
@@ -81,18 +86,15 @@ public class Hello_off : MonoBehaviour
         }
         int k = 0;
         for(int l = 0; l<nFacette;l++)
-        {
+        { 
             string[] f = reader.ReadLine().Split(' ');
             triangles[k] = int.Parse(f[1]);
             triangles[k+1] = int.Parse(f[2]);
-            triangles[k + 2] = int.Parse(f[3]);
-            Vector3 n = Vector3.Cross(vertices[int.Parse(f[1])] - vertices[int.Parse(f[2])], vertices[int.Parse(f[3])] - vertices[int.Parse(f[2])]);
-            normales[l] = n;
-
-
+            triangles[k+2] = int.Parse(f[3]);
+            
             k += 3;
         }
-        
+
         reader.Close();
     }
 
@@ -131,10 +133,10 @@ public class Hello_off : MonoBehaviour
 
         msh.vertices = vertices;
         msh.triangles = triangles;
+        calcNormal();
         msh.normals = normales;
-
+        //msh.RecalculateNormals();
         
-
         gameObject.GetComponent<MeshFilter>().mesh = msh;           // Remplissage du Mesh et ajout du matériel
         gameObject.GetComponent<MeshRenderer>().material = mat;
 
@@ -143,9 +145,42 @@ public class Hello_off : MonoBehaviour
 
     }
 
+    void calcNormal()
+    {
+        for(int i = 0; i<nSommet; i++)
+        {
+            normales[i] = Vector3.zero;
+        }
+
+        int k = 0;
+        for (int i = 0; i < nFacette; i++)
+        {
+            Vector3 p1 = vertices[triangles[k + 1]] - vertices[triangles[k]];
+            Vector3 p2 = vertices[triangles[k + 2]] - vertices[triangles[k]];
+
+            Vector3 n = Vector3.Cross(p1, p2);
+
+            normales[triangles[k]] += n;
+            normales[triangles[k + 1]] += n;
+            normales[triangles[k + 2]] += n;
+
+            k += 3;
+        }
+
+        for (int i = 0; i < nSommet; i++)
+        {
+            normales[i] = Vector3.Normalize(normales[i]);
+        }
+
+
+    }
+
+
     // Update is called once per frame
     void Update()
     {
-        
+
+        gameObject.GetComponent<MeshFilter>().mesh.normals = normales;
+
     }
 }
