@@ -33,11 +33,6 @@ public class Hello_off : MonoBehaviour
         nArrete = int.Parse(Count[2]);
 
 
-       /* string[] Test = reader.ReadLine().Split(' ');
-
-        string i = "-0.003393500111997128";
-        Debug.Log(float.Parse(i, CultureInfo.InvariantCulture));*/
-
         vertices = new Vector3[nSommet];
         triangles = new int[nFacette * 3];
         normales = new Vector3[nSommet];
@@ -140,7 +135,7 @@ public class Hello_off : MonoBehaviour
         gameObject.GetComponent<MeshFilter>().mesh = msh;           // Remplissage du Mesh et ajout du matériel
         gameObject.GetComponent<MeshRenderer>().material = mat;
 
-        
+        Exportoff();
 
 
     }
@@ -174,6 +169,42 @@ public class Hello_off : MonoBehaviour
 
 
     }
+
+    void Exportoff()
+    {
+        string path = "Assets/Off/" + nameObject + "newMesh.off";
+
+
+        using (StreamWriter sw = File.CreateText(path))
+        {
+            sw.WriteLine("OFF");
+            sw.WriteLine(nSommet + " " + nFacette + " "+nArrete);
+            foreach(Vector3 v in vertices)
+            {
+                string line = v.x + " " + v.y + " " + v.z;
+                line = line.Replace(",", ".");
+
+                sw.WriteLine(line);
+            }
+
+            int k = 0;
+            for( int i = 0; i<nFacette; i++)
+            {
+
+                sw.WriteLine("3 "+ triangles[k]+ " " + triangles[k+1] + " " + triangles[k+2]);
+                k += 3;
+            }
+            
+
+        }
+
+
+
+
+
+    }
+
+
 
 
     // Update is called once per frame
