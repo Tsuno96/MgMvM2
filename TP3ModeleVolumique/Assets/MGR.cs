@@ -13,8 +13,8 @@ public class MGR : MonoBehaviour
     float blueMat;
     Material material;
     public GameObject cube;
-    public GameObject sphere;
-    int rayon;
+    public List<GameObject> spheres;
+
     public List<GameObject> cubes;
     List<GameObject> childCube;
 
@@ -39,17 +39,78 @@ public class MGR : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
-        rayon = (int)sphere.transform.localScale.x /2;
+    {   
+        
         //argo = new GameObject[dimCubes,dimCubes,dimCubes];
-        GameObject c = Instantiate(cube, sphere.transform.position, Quaternion.identity);
-        c.transform.localScale = Vector3.one * rayon* 2;
-        cubes.Add(c);
-        blueMat = c.GetComponent<Renderer>().material.color.b;
+        
+        setBox();
 
     }
 
-    public void createGrid()
+    void setBox()
+    {
+        float minX, minY, minZ;
+        minX = Mathf.Infinity;
+        minY = Mathf.Infinity;
+        minZ = Mathf.Infinity;
+
+
+        float maxX, maxY, maxZ;
+        maxX = Mathf.NegativeInfinity;
+        maxY = Mathf.NegativeInfinity;
+        maxZ = Mathf.NegativeInfinity;
+
+        foreach(GameObject sphere in spheres)
+        {
+            if(sphere.transform.position.x + sphere.transform.localScale.x/2 > maxX)
+            {
+                maxX = sphere.transform.position.x + sphere.transform.localScale.x/2;
+            }
+
+            if(sphere.transform.position.x - sphere.transform.localScale.x/2 < minX)
+            {
+                minX = sphere.transform.position.x - sphere.transform.localScale.x/2;
+            }
+
+            if(sphere.transform.position.y + sphere.transform.localScale.y/2 > maxY)
+            {
+                maxY = sphere.transform.position.y + sphere.transform.localScale.y/2;
+            }
+
+            if(sphere.transform.position.y - sphere.transform.localScale.y/2 < minY)
+            {
+                minY = sphere.transform.position.y - sphere.transform.localScale.y/2;
+            }
+
+            if(sphere.transform.position.z + sphere.transform.localScale.z/2 > maxZ)
+            {
+                maxZ = sphere.transform.position.z + sphere.transform.localScale.z/2;
+            }
+
+            if(sphere.transform.position.z - sphere.transform.localScale.z/2 < minZ)
+            {
+                minZ = sphere.transform.position.z - sphere.transform.localScale.z/2;
+            }
+        }
+
+        Vector3 min = new Vector3(minX,minY,minZ);
+        Vector3 max = new Vector3(maxX,maxY,maxZ);
+        Vector3 centerBox = min + (((max - min) / 2));
+        Debug.Log(centerBox);
+        Instantiate(cube, max, Quaternion.identity);
+        Instantiate(cube, min, Quaternion.identity);
+        GameObject c = Instantiate(cube, centerBox, Quaternion.identity);
+        c.transform.localScale = new Vector3(maxX - minX,maxY -minY, maxZ-minZ);
+        cubes.Add(c);
+
+    }
+
+
+
+
+
+
+    /*public void createGrid()
     {
         Vector3 v3Center = sphere.transform.position;
         for (var i = 0; i < dimCubes; i++) {
@@ -64,7 +125,7 @@ public class MGR : MonoBehaviour
              }
             }
          }
-    }
+    }*/
   
 
     public void subdivise()
@@ -106,22 +167,47 @@ public class MGR : MonoBehaviour
             verticesCube.Add(v+ new Vector3(-COTrans.localScale.x / 4, COTrans.localScale.y / 4, COTrans.localScale.z / 4));
             verticesCube.Add(v+ new Vector3(COTrans.localScale.x / 4, COTrans.localScale.y / 4, -COTrans.localScale.z / 4));
             verticesCube.Add(v + new Vector3(COTrans.localScale.x / 4, COTrans.localScale.y / 4, COTrans.localScale.z / 4));
-
-            foreach (Vector3 vPoint in verticesCube)
+            bool[] boolsv;
+            boolsv = new bool[8];
+            bool sphereIn = false;
+             
+            foreach(GameObject s in spheres)
             {
-                if (Vector3.Distance(vPoint, sphere.transform.position) <rayon)
-                {
-                    counterOnSphere ++;
+                for(int l = 0; l<verticesCube.Count; l++)
+                {  
+                    float rayon = s.transform.localScale.x /2;
+                    if (Vector3.Distance(verticesCube[l], s.transform.position) <rayon)
+                    {
+                        boolsv[l] = true;
+                    }
+                    
+                    
                 }
+            
+                if(s.transform.position.x > verticesCube[0].x &&  s.transform.position.y > verticesCube[0].y && s.transform.position.z > verticesCube[0].z)
+                {
+                    Debug.Log(verticesCube[0]);
+                    if(s.transform.position.x < verticesCube[7].x &&  s.transform.position.y < verticesCube[7].y && s.transform.position.z < verticesCube[7].z)
+                    {
+                        
+                        sphereIn = true;
+                    }
+                }
+                
             }
-            if (counterOnSphere < 8 && counterOnSphere> 0)
+        
+           
+            foreach(bool b in boolsv) { if(b){counterOnSphere ++;}}
+            if (counterOnSphere < 8)
             {
-                GameObject GOchild  = Instantiate(cube, v, COTrans.rotation);
-                GOchild.GetComponent<CubeController>().onSphere = counterOnSphere;
-                GOchild.GetComponent<CubeController>().vertices = verticesCube;
-                //GOchild.GetComponent<Renderer>().material.color = new Color(0,46,blueMat,255);
-                childCube.Add(GOchild);
 
+                if(counterOnSphere > 0 || sphereIn)
+                {
+                    GameObject GOchild  = Instantiate(cube, v, COTrans.rotation);
+                    GOchild.GetComponent<CubeController>().onSphere = counterOnSphere;
+                    GOchild.GetComponent<CubeController>().vertices = verticesCube;
+                    childCube.Add(GOchild);
+                }                    
 
             }
             else if(counterOnSphere >=8)
@@ -132,6 +218,7 @@ public class MGR : MonoBehaviour
                 //GO.GetComponent<Renderer>().material.color = new Color(0,46,blueMat);
                 GO.transform.localScale = COTrans.localScale / 2;
             }
+
         }
 
         foreach (GameObject GO in childCube)
@@ -146,7 +233,7 @@ public class MGR : MonoBehaviour
         Destroy(cubeOriginal);
     }
 
-    public void DeleteCube()
+    /*public void DeleteCube()
     {
         foreach (GameObject GO in cubes)
         {
@@ -155,7 +242,7 @@ public class MGR : MonoBehaviour
                 Destroy(GO);
             }
         }
-    }
+    }*/
 
     
 
@@ -163,6 +250,10 @@ public class MGR : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            subdivise();
+        }
         
     }
 }
