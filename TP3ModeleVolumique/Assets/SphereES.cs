@@ -22,7 +22,10 @@ public class SphereES : MonoBehaviour
         SC = GetComponent<SphereCollider>();
         SC.radius = rayon;
     }
-
+    void OnMouseDown()
+    {
+        MGR.Instance.subdivise();
+    }
     // Update is called once per frame
     void Update()
     {

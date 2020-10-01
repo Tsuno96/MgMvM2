@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CubeController : MonoBehaviour
 {
-    public bool onSphere = false;
+    public int onSphere;
+    public List<Vector3> vertices;
     // Start is called before the first frame update
     void Start()
     {

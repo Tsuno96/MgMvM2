@@ -123,6 +123,36 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &419280983
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 419280984}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &419280984
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419280983}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,7 +360,8 @@ MonoBehaviour:
   cube: {fileID: 8075599223567663840, guid: 7d0693ca9b9fa2847ac288a19ae1f340, type: 3}
   sphere: {fileID: 2778601484320299038, guid: b839aa61eafcbb849a0fca65e870ab7f, type: 3}
   cubes: []
-  subDiv: 2
+  subDiv: 0
+  dimCubes: 2
 --- !u!4 &1012370755
 Transform:
   m_ObjectHideFlags: 0
@@ -415,15 +446,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2778601484320299027, guid: b839aa61eafcbb849a0fca65e870ab7f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.43391323
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2778601484320299027, guid: b839aa61eafcbb849a0fca65e870ab7f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.12410402
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2778601484320299027, guid: b839aa61eafcbb849a0fca65e870ab7f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.49690413
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2778601484320299027, guid: b839aa61eafcbb849a0fca65e870ab7f, type: 3}
       propertyPath: m_LocalRotation.x
