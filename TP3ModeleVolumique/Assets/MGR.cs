@@ -14,7 +14,6 @@ public class MGR : MonoBehaviour
     Material material;
     public GameObject cube;
     public List<GameObject> spheres;
-
     public List<GameObject> cubes;
     List<GameObject> childCube;
 
@@ -39,9 +38,9 @@ public class MGR : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {   
-        
-        //argo = new GameObject[dimCubes,dimCubes,dimCubes];
+    {
+
+        argo = new GameObject[dimCubes,dimCubes,dimCubes];
         
         setBox();
 
@@ -97,10 +96,13 @@ public class MGR : MonoBehaviour
         Vector3 max = new Vector3(maxX,maxY,maxZ);
         Vector3 centerBox = min + (((max - min) / 2));
         Debug.Log(centerBox);
-        Instantiate(cube, max, Quaternion.identity);
-        Instantiate(cube, min, Quaternion.identity);
+        var GOmax = Instantiate(cube, max, Quaternion.identity);
+        GOmax.name = "Max";
+        var GOmin = Instantiate(cube, min, Quaternion.identity);
+        GOmin.name = "Min";
         GameObject c = Instantiate(cube, centerBox, Quaternion.identity);
         c.transform.localScale = new Vector3(maxX - minX,maxY -minY, maxZ-minZ);
+        c.name = "Cube0";
         cubes.Add(c);
 
     }
@@ -110,22 +112,27 @@ public class MGR : MonoBehaviour
 
 
 
-    /*public void createGrid()
+    public void createGrid()
     {
-        Vector3 v3Center = sphere.transform.position;
+        Vector3 v3Center = cubes[0].transform.position;
         for (var i = 0; i < dimCubes; i++) {
          for (var j = 0; j < dimCubes; j++) {
-             for (var k = 0; k < dimCubes; k++) {
-                 float x = (float)(v3Center.x - dimCubes / 2.0 + i);
-                 float y = (float)(v3Center.y + dimCubes / 2.0 - j);
-                 float z = (float)(v3Center.z - dimCubes / 2.0 + k);
-                 
-                 argo[i,j,k] = Instantiate(cube, new Vector3(x,y,z), Quaternion.identity);
-                 //argo[i,j,k].transform.localScale = Vector3.one * (sphere.GetComponent<SphereES>().rayon * 2) / dimCubes;
-             }
+                for (var k = 0; k < dimCubes; k++)
+                {
+                    float x = (float)(v3Center.x - cubes[0].transform.localScale.x / 2 + (i+0.5) * cubes[0].transform.localScale.x / dimCubes);
+                    float y = (float)(v3Center.y + cubes[0].transform.localScale.y / 2 - (j+0.5) * cubes[0].transform.localScale.y / dimCubes);
+                    float z = (float)(v3Center.z - cubes[0].transform.localScale.z / 2 + (k+0.5) * cubes[0].transform.localScale.z / dimCubes);
+                    
+                    argo[i, j, k] = Instantiate(cube, new Vector3(x, y, z), Quaternion.identity);
+                    argo[i, j, k].transform.localScale = cubes[0].transform.localScale / dimCubes;
+                    argo[i, j, k].name = "Cube" + i + j + k;
+                    cubes.Add(argo[i, j, k]);
+                }
             }
          }
-    }*/
+
+
+    }
   
 
     public void subdivise()
@@ -233,18 +240,47 @@ public class MGR : MonoBehaviour
         Destroy(cubeOriginal);
     }
 
-    /*public void DeleteCube()
+    public void DeleteCube()
     {
         foreach (GameObject GO in cubes)
         {
-            if (Vector3.Distance(GO.transform.position, sphere.transform.position) > rayon)
+            bool inSphere = false;
+            foreach (GameObject s in spheres)
+            {       
+                if (Vector3.Distance(GO.transform.position, s.transform.position) < s.transform.localScale.x / 2)
+                {
+                    inSphere = true;
+                }
+            }
+            if(!inSphere)
+            {
+                Destroy(GO);    
+            }
+        }
+        Destroy(cubes[0]);
+    }
+
+    public void DeleteCubeUnion()
+    {
+        foreach (GameObject GO in cubes)
+        {
+            List<bool> inSphere = new List<bool>();
+            foreach (GameObject s in spheres)
+            {
+                if (Vector3.Distance(GO.transform.position, s.transform.position) < s.transform.localScale.x / 2)
+                {
+                    inSphere.Add(true);
+                }
+            }
+            if (inSphere.Count < 2)
             {
                 Destroy(GO);
             }
         }
-    }*/
+        Destroy(cubes[0]);
+    }
 
-    
+
 
 
     // Update is called once per frame
@@ -254,6 +290,18 @@ public class MGR : MonoBehaviour
         {
             subdivise();
         }
-        
+
+        if (Input.GetKeyDown(KeyCode.F10))
+        {
+            createGrid();
+        }
+        if (Input.GetKeyDown(KeyCode.F11))
+        {
+            DeleteCube();
+        }
+        if (Input.GetKeyDown(KeyCode.F12))
+        {
+            DeleteCubeUnion();
+        }
     }
 }
