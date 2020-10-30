@@ -95,7 +95,6 @@ public class MGR : MonoBehaviour
         Vector3 min = new Vector3(minX,minY,minZ);
         Vector3 max = new Vector3(maxX,maxY,maxZ);
         Vector3 centerBox = min + (((max - min) / 2));
-        Debug.Log(centerBox);
         var GOmax = Instantiate(cube, max, Quaternion.identity);
         GOmax.name = "Max";
         var GOmin = Instantiate(cube, min, Quaternion.identity);
@@ -193,7 +192,6 @@ public class MGR : MonoBehaviour
             
                 if(s.transform.position.x > verticesCube[0].x &&  s.transform.position.y > verticesCube[0].y && s.transform.position.z > verticesCube[0].z)
                 {
-                    Debug.Log(verticesCube[0]);
                     if(s.transform.position.x < verticesCube[7].x &&  s.transform.position.y < verticesCube[7].y && s.transform.position.z < verticesCube[7].z)
                     {
                         

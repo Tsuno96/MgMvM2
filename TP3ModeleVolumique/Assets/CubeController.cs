@@ -7,6 +7,9 @@ public class CubeController : MonoBehaviour
     public int onSphere;
     public List<Vector3> vertices;
     public bool[] arrb_vertices;
+    public float potentiel;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +24,14 @@ public class CubeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (potentiel < GridController.SeuilPotentiel)
+        {
+            GetComponent<Renderer>().enabled = false;
+        }
+        else
+        {
+            GetComponent<Renderer>().enabled = true;
+        }
     }
 
 

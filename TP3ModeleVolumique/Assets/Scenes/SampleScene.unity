@@ -490,9 +490,8 @@ MonoBehaviour:
   - {fileID: 1444825761}
   - {fileID: 1213419303}
   - {fileID: 668414749}
-  - {fileID: 0}
   cubes: []
-  subDiv: 0
+  subDiv: 5
   dimCubes: 20
 --- !u!4 &1012370755
 Transform:
