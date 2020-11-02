@@ -1,23 +1,41 @@
 <!DOCTYPE MeshLabDocument>
 <MeshLabProject>
  <MeshGroup>
-  <MLMesh label="buddha.off" filename="buddha.off" visible="0">
+  <MLMesh visible="0" label="buddha.off" filename="buddha.off">
    <MLMatrix44>
 1 0 0 0 
 0 1 0 0 
 0 0 1 0 
 0 0 0 1 
 </MLMatrix44>
-   <RenderingOption wireColor="64 64 64 255" solidColor="192 192 192 255" pointColor="131 149 69 255" wireWidth="1" pointSize="3" boxColor="234 234 234 255">100001000000000000000100000001011000001010100000000100111011110000001001</RenderingOption>
+   <RenderingOption pointSize="3" wireWidth="1" boxColor="234 234 234 255" wireColor="64 64 64 255" solidColor="192 192 192 255" pointColor="131 149 69 255">100001000000000000000100000001011000001010100000000100111011110000001001</RenderingOption>
   </MLMesh>
-  <MLMesh label="buddhaQECD.off" filename="buddha.ply" visible="0">
+  <MLMesh visible="0" label="buddhaQECD" filename="buddhaQEDC.ply">
    <MLMatrix44>
 1 0 0 0 
 0 1 0 0 
 0 0 1 0 
 0 0 0 1 
 </MLMatrix44>
-   <RenderingOption wireColor="64 64 64 255" solidColor="192 192 192 255" pointColor="131 149 69 255" wireWidth="1" pointSize="6" boxColor="234 234 234 255">100001000000000000000100000001011000001010100000000100111011110000001001</RenderingOption>
+   <RenderingOption pointSize="3" wireWidth="1" boxColor="234 234 234 255" wireColor="64 64 64 255" solidColor="192 192 192 255" pointColor="131 149 69 255">100001000000000000000100000001011000001010100000000100111011110000001001</RenderingOption>
+  </MLMesh>
+  <MLMesh visible="0" label="buddhaEdgeCollapse.off" filename="buddhaEdgeCollapse.off">
+   <MLMatrix44>
+1 0 0 0 
+0 1 0 0 
+0 0 1 0 
+0 0 0 1 
+</MLMatrix44>
+   <RenderingOption pointSize="3" wireWidth="1" boxColor="234 234 234 255" wireColor="64 64 64 255" solidColor="192 192 192 255" pointColor="131 149 69 255">100001000000000000000100000001011000001010100000000100111011110000001001</RenderingOption>
+  </MLMesh>
+  <MLMesh visible="1" label="buddhaClusteringDecimatiion" filename="buddhaClusteringDecimatiion.off">
+   <MLMatrix44>
+1 0 0 0 
+0 1 0 0 
+0 0 1 0 
+0 0 0 1 
+</MLMatrix44>
+   <RenderingOption pointSize="3" wireWidth="1" boxColor="234 234 234 255" wireColor="64 64 64 255" solidColor="192 192 192 255" pointColor="131 149 69 255">100001000000000000000100000001011000001010100000000100111011110000001001</RenderingOption>
   </MLMesh>
  </MeshGroup>
  <RasterGroup/>

@@ -8,6 +8,7 @@ public class CubeController : MonoBehaviour
     public List<Vector3> vertices;
     public bool[] arrb_vertices;
     public float potentiel;
+    public float offset_potentiel;
 
 
     // Start is called before the first frame update
@@ -45,6 +46,6 @@ public class CubeController : MonoBehaviour
 
     private void OnMouseDown()
     {
-
+        offset_potentiel += 100; 
     }
 }

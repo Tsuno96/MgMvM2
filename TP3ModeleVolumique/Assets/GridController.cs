@@ -72,6 +72,7 @@ public class GridController : MonoBehaviour
             foreach (Transform t in GO_spheres)
             {
                 c.GetComponent<CubeController>().potentiel += 1000/Vector3.Distance(c.transform.position, t.position);
+                c.GetComponent<CubeController>().potentiel -= c.GetComponent<CubeController>().offset_potentiel;
             }
         }
 
